@@ -66,9 +66,7 @@
 				// popup content
 				function get_return_string() {
 					ob_start();
-					?>
-						<!-- your html goes here -->
-					<?php
+					echo "your html here";
 					return ob_get_clean();
 				}
 			}
