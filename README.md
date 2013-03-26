@@ -77,4 +77,4 @@
 
 <h3>TIPS</h3>
 
-<p>If you plan to create a popup, you have to add a javascript to return the string back to the editor. Simple use the function <code>window.send_to_editor("my return string here");</code></p>
+<p>If you plan to create a popup, you have to add a javascript to return the string back to the editor. Simple use the function <code>window.send_to_editor("my return string here");</code>.</p>
