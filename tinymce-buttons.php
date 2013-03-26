@@ -193,6 +193,9 @@ class TinyMCE_Buttons {
 		$this->buttons[$button_id][] = $button;
 	}
 
+	/**
+	 * Add the needed WP Hooks and Callbacks
+	 */
 	function install() {
 		/*** register buttons ***/
 		add_action('init', array($this, 'initialize_buttons'));
@@ -206,28 +209,57 @@ class TinyMCE_Buttons {
 		add_action('wp_ajax_tinymce_button_script', array($this, 'editor_script'));
 	}
 
+	/**
+	 * Register the buttons
+	 * @return [type] [description]
+	 */
 	function initialize_buttons() {
 		if($this->_validate_user()) {
 			add_filter('mce_external_plugins', array($this, 'register_script'));
 		}
 	}
 
+	/**
+	 * Register the buttons on row 1
+	 * @param  Array $buttons Buttons List
+	 * @return Array          Buttons placement
+	 */
 	function buttons_on_row_1($buttons) {
 		return $this->_display_buttons($buttons, 1);
 	}
 
+	/**
+	 * Register the buttons on row 2
+	 * @param  Array $buttons Buttons List
+	 * @return Array          Buttons placement
+	 */
 	function buttons_on_row_2($buttons) {
 		return $this->_display_buttons($buttons, 2);
 	}
 
+	/**
+	 * Register the buttons on row 3
+	 * @param  Array $buttons Buttons List
+	 * @return Array          Buttons placement
+	 */
 	function buttons_on_row_3($buttons) {
 		return $this->_display_buttons($buttons, 3);
 	}
 
+	/**
+	 * Register the buttons on row 4
+	 * @param  Array $buttons Buttons List
+	 * @return Array          Buttons placement
+	 */
 	function buttons_on_row_4($buttons) {
 		return $this->_display_buttons($buttons, 4);
 	}
 
+	/**
+	 * Register the Button script
+	 * @param  array $plugins List of TinyMCE Plugins
+	 * @return array          New List of TinyMCE Plugins
+	 */
 	function register_script($plugins) {
 		foreach($this->buttons as $button_group) {
 			$button_id           = $button_group[0]->get_id();
@@ -236,6 +268,9 @@ class TinyMCE_Buttons {
 		return $plugins;
 	}
 
+	/**
+	 * View HTML
+	 */
 	function view_html() {
 		$plugin = isset($_GET['plugin']) ? $_GET['plugin'] : '';
 		$index  = isset($_GET['index']) ? $_GET['index'] : '';
@@ -247,6 +282,9 @@ class TinyMCE_Buttons {
 		exit(0);
 	}
 
+	/**
+	 * TinyMCE Editor Scripts
+	 */
 	function editor_script() {
 		header("Content-type: text/javascript");
 		?>
@@ -310,6 +348,11 @@ class TinyMCE_Buttons {
 		exit(0);
 	}
 
+	/**
+	 * Checks if the button exists
+	 * @param  string  $id Button ID
+	 * @return boolean     True if it exists, otherwise false
+	 */
 	function has_button($id) {
 		foreach($this->buttons as $button_group) {
 			foreach($button_group as $button) {
@@ -321,6 +364,12 @@ class TinyMCE_Buttons {
 		return false;
 	}
 
+	/**
+	 * Return the button from the buttons list
+	 * @param  string $id     Button ID
+	 * @param  integer $index Button position in the array
+	 * @return Object         Button Object
+	 */
 	function get_button($id, $index) {
 		if(isset($this->buttons[$id][$index])) {
 			return $this->buttons[$id][$index];
@@ -329,6 +378,11 @@ class TinyMCE_Buttons {
 		return false;
 	}
 
+	/**
+	 * Encodes button information to json string
+	 * @param  array $info Plugin Info
+	 * @return string      Encoded plugin info
+	 */
 	private function _info_to_object($info) {
 		$arr   = array("longname", "author", "authorurl", "version");
 		$infos = array();
@@ -343,6 +397,12 @@ class TinyMCE_Buttons {
 		return json_encode($infos);
 	}
 
+	/**
+	 * Register buttons to specific row
+	 * @param  array $buttons Buttons list
+	 * @param  integer $row   Row placement
+	 * @return array          Buttons List
+	 */
 	private function _display_buttons($buttons, $row) {
 		foreach($this->buttons as $button_group) {
 			if($button_group[0]->get_placement() == $row) {
@@ -353,6 +413,10 @@ class TinyMCE_Buttons {
 		return $buttons;
 	}
 
+	/**
+	 * Validates user and if there is any registered button
+	 * @return Boolean True if user can edit and there is at least 1 button registered
+	 */
 	private function _validate_user() {
 		return (current_user_can("edit_posts") && current_user_can("edit_pages") && !empty($this->buttons));
 	}
