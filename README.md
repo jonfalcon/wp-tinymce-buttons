@@ -25,57 +25,59 @@
 
 <p>You can create your own button class if you want to have full control of your button. Here's how you do it</p>
 
-<code>
-	<?php
-		class TinyMCE_Sample_Button implements TinyMCE_Button_Interface {
-			// return id
-			function get_id() {
-				return "my_button_id";
-			}
+<pre>
+	<code>
+		<?php
+			class TinyMCE_Sample_Button implements TinyMCE_Button_Interface {
+				// return id
+				function get_id() {
+					return "my_button_id";
+				}
 
-			// return title
-			function get_title() {
-				return "Sample Button";
-			}
+				// return title
+				function get_title() {
+					return "Sample Button";
+				}
 
-			// return icon url
-			function get_icon() {
-				return '/path/to/icon.ext';
-			}
+				// return icon url
+				function get_icon() {
+					return '/path/to/icon.ext';
+				}
 
-			// return plugin info
-			function get_info() {
-				return array(
-						"longname"  => "This is a sample Button",
-						"author"    => "Jon Falcon",
-						"authorurl" => "",
-						"version"   => "1.0"
-					);
-			}
+				// return plugin info
+				function get_info() {
+					return array(
+							"longname"  => "This is a sample Button",
+							"author"    => "Jon Falcon",
+							"authorurl" => "",
+							"version"   => "1.0"
+						);
+				}
 
-			// return placement
-			function get_placement() {
-				return 3;
-			}
+				// return placement
+				function get_placement() {
+					return 3;
+				}
 
-			// if this button has popup
-			function has_html() {
-				return true;
-			}
+				// if this button has popup
+				function has_html() {
+					return true;
+				}
 
-			// popup content
-			function get_return_string() {
-				ob_start();
-				?>
-					<!-- your html goes here -->
-				<?php
-				return ob_get_clean();
+				// popup content
+				function get_return_string() {
+					ob_start();
+					?>
+						<!-- your html goes here -->
+					<?php
+					return ob_get_clean();
+				}
 			}
-		}
-		// add your button to the buttons list
-		TinyMCE_Buttons::get_instance()->add_button(new TinyMCE_Sample_Button());
-	?>
-</code>
+			// add your button to the buttons list
+			TinyMCE_Buttons::get_instance()->add_button(new TinyMCE_Sample_Button());
+		?>
+	</code>
+</pre>
 
 <h3>TIPS</h3>
 
